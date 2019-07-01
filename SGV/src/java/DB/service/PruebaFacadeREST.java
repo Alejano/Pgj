@@ -34,6 +34,8 @@ public class PruebaFacadeREST extends AbstractFacade<Prueba> {
     public PruebaFacadeREST() {
         super(Prueba.class);
     }
+    
+    
 
     @POST
     @Override

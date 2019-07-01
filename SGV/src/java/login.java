@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import DB.Prueba;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -70,13 +72,10 @@ public class login extends HttpServlet {
             Prueba Us = consultaAlumnos.getSingleResult();
             
             try {
-            
-        
+                
+        if(usuario.equals(Us.getUsuario()) && password.equals(Us.getContrasena())){
                     String DBusuario = Us.getUsuario();
-                    String DBpassword = Us.getContrasena();
-                    
-
-
+                    String DBpassword = Us.getContrasena();                                                                         
                     System.out.println("usuario:"+DBusuario);
                     System.out.println("password:"+DBpassword);
 
@@ -88,7 +87,11 @@ public class login extends HttpServlet {
                     out.println("El parametro de la Base de datos: passwordes: "+DBpassword);
                     out.println("</body>");out.println("</html>");
                     out.close();
-        
+        }else{
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error de acceso"));
+        }
+                    
         } catch (Exception e) {
             PrintWriter out=response.getWriter();
         out.println("<html>");
@@ -97,13 +100,20 @@ public class login extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
         out.close();
+        
+        
+                
         }
     }
+    
+   
 
     
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+   
 
 }
